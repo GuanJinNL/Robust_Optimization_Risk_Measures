@@ -7,7 +7,6 @@
 import numpy as np
 import pandas as pd
 import cvxpy as cp
-import seaborn as sns
 import mosek
 import matplotlib.pyplot as plt
 import datetime as date
@@ -20,13 +19,17 @@ from scipy.stats import rankdata
 # In[5]:
 
 
-######## all phi-conjugates
+######## The representations of the epigraph of the perspective of the phi conjugates: gamma*(phi^*)(s/gamma) <= t are given below for several
+##### phi functions
 
+##### the modified chi-squared function phi(x)= (x-1)^2
 
 def mod_chi2_conj(gamma,s,t,w,constraints):
     constraints.append(cp.norm(cp.vstack([w,t/2]))<=(t+2*gamma)/2)
     constraints.append(s/2+gamma<= w)
     return(constraints)
+
+#### the kullback-leibler function phi(x) = xlog(x)-x+1 
 
 def kb_conj(gamma,s,t,w,constraints):
     constraints.append(w - gamma <= t)
@@ -37,7 +40,7 @@ def kb_conj(gamma,s,t,w,constraints):
 # In[3]:
 
 
-################ all phi_cuts_constraints
+####### the constraints sum^N_{i=1}p_iphi(q_i/p_i) <= r is written here (in cvxpy syntax) for several phi functions
 
 def mod_chi2_cut(p,q,r,par,constraints):
     N = p.shape[0]
@@ -59,7 +62,7 @@ def kb_cut(p,q,r,par,constraints):
 # In[6]:
 
 
-########### all phi evaluations
+###### functions that evaluates phi functions
 
 def kb_eva(p,q):
     N = len(p)
