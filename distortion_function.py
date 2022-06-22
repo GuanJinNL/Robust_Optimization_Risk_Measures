@@ -7,21 +7,15 @@
 import numpy as np
 import pandas as pd
 import cvxpy as cp
-import seaborn as sns
 import mosek
-import matplotlib.pyplot as plt
-import datetime as date
-from datetime import datetime as dt
-from dateutil.relativedelta import *
-import scipy.stats
-from scipy.stats import rankdata
 
 
 # In[6]:
 
 
-######### all distortion conjugates
+####### representation of the epigraph of the perspective of the (-h) conjugates: lambda*((-h)^*)(-v/lambda)<=z
 
+#### quadratic h function h(x) = (1+par)*x - par*(x^2), 0<par<1
 def h_quad_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     eta = cp.Variable(M, nonneg= True)
@@ -30,6 +24,7 @@ def h_quad_conj(lbda,v,z,par,constraints):
         constraints.append(1/(2*np.sqrt(par))*(-v[j]+lbda[j]+par*lbda[j])<= eta[j])
     return(constraints)
 
+#### function h(x) = 1 - (1-x)^par for 0<=x<1, h(x)=1 for x>=1
 def h_spw_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     xi_2 = cp.Variable(M, nonneg = True)
@@ -42,6 +37,7 @@ def h_spw_conj(lbda,v,z,par,constraints):
         constraints.append(xi_2[j]-cp.geo_mean(cp.vstack([xi_4[j],lbda[j]]),exponent)<= 0)
     return(constraints)
 
+#### function h(x) = (1-(1-x)^par)^{1/par} for 0 <=x<1, h(x)=1 for x>=1
 def h_dpw_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     xi_2 = cp.Variable(M, nonneg = True)
@@ -52,6 +48,7 @@ def h_dpw_conj(lbda,v,z,par,constraints):
         constraints.append(-xi_3[j]+cp.pnorm(cp.vstack([xi_2[j],xi_3[j]]),exp)<= z[j])
     return(constraints)
 
+#### function h(x) = x^par, 0<par<1
 def h_pw_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     constraints.append(v >= 0)
@@ -60,7 +57,7 @@ def h_pw_conj(lbda,v,z,par,constraints):
     for j in range(M):
         constraints.append(cp.geo_mean(cp.vstack([z[j],v[j]]),exp)>= lbda[j]*const)
     return(constraints)
-
+#### function h(x) = x^par(1-log(x^par))
 def h_log_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     xi_1 = cp.Variable(M, nonneg = True)
@@ -74,7 +71,7 @@ def h_log_conj(lbda,v,z,par,constraints):
         constraints.append(xi_2[j]+xi_3[j] >= cp.kl_div(lbda[j],xi_1[j]) +lbda[j]-xi_1[j])
         constraints.append(xi_2[j] <= cp.geo_mean(cp.vstack([v[j],xi_4[j]]),exp))
     return(constraints)
-
+#### function h(x) = min{x/(1-par),1}
 def h_cvar_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
     for j in range(M):
@@ -82,13 +79,13 @@ def h_cvar_conj(lbda,v,z,par,constraints):
     constraints.append(v >= 0)
     return(constraints)
 # In[7]:
-
+#### function h(x)=x
 def h_lin_conj(lbda,v,z,par,constraints):
     constraints.append(v>=lbda)
     constraints.append(z >= 0)
     return(constraints)
 
-############### all h functions cut
+#### The epigraphs h(x)<=0 expressed in cvxpy syntax.
 
 def h_quad_cut(q_b,q,rank,par,constraints):
     N = q.shape[0]
@@ -143,7 +140,7 @@ def h_lin_cut(q_b, q, rank, par, constraints):
 # In[8]:
 
 
-################ all h functions evaluation
+##### all h functions evaluation
 
 def h_quad_eva(x,par):
     return((1+par)*x-par*x**2)
