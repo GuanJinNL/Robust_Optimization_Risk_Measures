@@ -5,20 +5,13 @@
 
 
 import numpy as np
-import pandas as pd
 import cvxpy as cp
-import seaborn as sns
 import mosek
-import matplotlib.pyplot as plt
-import datetime as date
-from datetime import datetime as dt
-from dateutil.relativedelta import *
-import scipy.stats
-from scipy.stats import rankdata
 
 
 # In[4]:
 
+#### evaluating the kullback-leibler phi divergence
 
 def kl_calc(q,p):
     N = len(p)
@@ -30,12 +23,16 @@ def kl_calc(q,p):
             phi = phi + q[i]*np.log(q[i]/p[i])
     return(phi)
 
+#### Evaluating the modified chi-squared divergence
+
 def mod_chi2_calc(q,p):
     N = len(p)
     phi = 0
     for i in range(N):
         phi = phi + (p[i]-q[i])**2/p[i]
     return(phi)
+
+# Technical functions for the hit-and-run algorithm
 
 def direction(m):
     theta = np.random.normal(0,1,size = m)
@@ -70,6 +67,8 @@ def L_mini (p,q_0,theta,r,phi_calc):
             l = (l_b+l_a)/2
     return(l_b)
 
+#### The hit-and-run algorithm given a phi-divergence function
+
 def hit_and_run(p,phi_calc,r,par,steps):
     N = len(p)
     q_0 = p[0:N-1]
@@ -83,6 +82,8 @@ def hit_and_run(p,phi_calc,r,par,steps):
         points.append(q_new)
         q_0 = q_new[0:N-1]
     return(points)
+
+#### This function calculates the risk evaluation given a probability q and a solution a.
 
 def riskcalc(a,h_eva,R,q,par):
     x = -R.dot(a)
