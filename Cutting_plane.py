@@ -8,13 +8,12 @@ import numpy as np
 import cvxpy as cp
 import mosek
 import random
-import matplotlib.pyplot as plt
 from itertools import chain, combinations
 
 
 # In[12]:
 
-
+#### some technical functions 
 def powerset(iterable):
     "powerset([1,2,3]) --> () (1,) (2,) (3,) (1,2) (1,3) (2,3) (1,2,3)"
     s = list(iterable)
@@ -89,7 +88,7 @@ def make_cut_Var(N,I,p,h_eva,par):
 
 
 # In[13]:
-
+#### This function calculates the worst case risk evaluation given a set of realisations x.
 
 def robustcheck(x,p,h_func,phi_func,r,par):
     N = len(p)
@@ -103,6 +102,8 @@ def robustcheck(x,p,h_func,phi_func,r,par):
     prob = cp.Problem(obj,constraints)
     prob.solve(solver=cp.MOSEK)
     return(prob.value,q_b.value)
+
+#### This function calculates the nominal risk evluation
 
 def nominal_risk(x,p,h_eva,par):
     N = len(p)
@@ -118,6 +119,7 @@ def nominal_risk(x,p,h_eva,par):
 
 # In[14]:
 
+#### the cutting-plane method for worst case risk evaluation minimization problem, suitable only for X(a)= U(a^TR)
 
 def cut_rob_pmin(R,p,e_tol,utility,utility_eva,h_func,phi_func,h_eva,r,W0, par=0.5, par_u=1):
     N = len(p)
@@ -142,7 +144,10 @@ def cut_rob_pmin(R,p,e_tol,utility,utility_eva,h_func,phi_func,h_eva,r,W0, par=0
         prob = cp.Problem(obj,constraints)
         prob.solve(solver=cp.MOSEK)
         w = a.value
-        
+
+
+#### the cutting-plane method for the nominal risk evaluation minimization problem, suitable only for X(a)= U(a^TR)
+
 def cut_nom_pmin(R,p,e_tol,utility,utility_eva,h_eva,W0,par=1,par_u=1):
     N = len(p)
     I = len(R[0])
@@ -168,7 +173,9 @@ def cut_nom_pmin(R,p,e_tol,utility,utility_eva,h_eva,W0,par=1,par_u=1):
         w = a.value
         #prob.solve(solver = cp.MOSEK, mosek_params={'MSK_DPAR_BASIS_REL_TOL_S':1e-8})
      
-     
+
+
+#### the cutting-plane method for return maximization problem under a worst case risk evaluation constraint, suitable only for X(a)= U(W0(a^TR+(1-a^T1)r_f))
 def cut_rob_pmax(R,p,e_tol,utility,utility_eva,h_func,phi_func,h_eva,r, r_f, c, W0,par=2, par_u=1):
     N = len(p)
     I = len(R[0])
@@ -192,7 +199,7 @@ def cut_rob_pmax(R,p,e_tol,utility,utility_eva,h_func,phi_func,h_eva,r, r_f, c, 
         prob.solve(solver=cp.MOSEK)
         w = a.value
        
-        
+#### the cutting-plane method for return maximization problem under a nominal risk evaluation constraint, suitable only for X(a)= U(W0(a^TR+(1-a^T1)r_f))        
 def cut_nom_pmax(R,r_f, c, p,e_tol,utility,utility_eva,h_eva,W0,par=2,par_u=1):
     N = len(p)
     I = len(R[0])
