@@ -7,17 +7,12 @@
 import numpy as np
 import pandas as pd
 import cvxpy as cp
-import seaborn as sns
 import mosek
-import matplotlib.pyplot as plt
-import datetime as date
-from datetime import datetime as dt
-from dateutil.relativedelta import *
-import scipy.stats
-from scipy.stats import rankdata
 
 
 # In[2]:
+
+### All necessary functions for piecewise linear approximating the power function h(x) = x^r
 
 def argmax_pw(x2,x1,r):
     frac = (x2**r-x1**r)/(x2-x1)*1/r
@@ -30,6 +25,8 @@ def max_error_pw(x2,x1,x,r):
 def pw (x,r):
     return(x**r)
 
+### All necessary functions for piecewise linear approximating the quadratic function h(x) = (1+par)x-par*x^2
+
 def argmax_quad(x2,x1,par):
     return((x2+x1)/2)
 
@@ -38,6 +35,9 @@ def max_error_quad(x2,x1,x,par):
 
 def quad(x,par):
     return((1+par)*x-par*x**2)
+
+
+### All necessary functions for piecewise linear approximating the function h(x) = 1-(1-x)^par
 
 def argmax_sing_power(x2,x1,par):
     breuk = ((1-x1)**par-(1-x2)**par)/(x2-x1)
@@ -51,6 +51,7 @@ def sing_pw(x,par):
     return(1-(1-x)**par)
 
 
+##### Function that evaluates the h function given a set of points
 
 def piece_affine_eval(x_points, x, h_eval, par):
     value = np.inf
@@ -67,6 +68,7 @@ def piece_affine_eval(x_points, x, h_eval, par):
 
 # In[3]:
 
+##### Function that determines the support points (endpoints of each linear pieces) of the approximation
 
 def affine_approx(eps,argmaxfunc, max_error,par):
     x_points = [0]
@@ -93,6 +95,7 @@ def affine_approx(eps,argmaxfunc, max_error,par):
 
 # In[4]:
 
+##### Function that determines the slopes and the constants of the linear pieces given the support points.
 
 def makepoints(h_eval,xpoints,par):
     K = len(xpoints)
@@ -105,6 +108,7 @@ def makepoints(h_eval,xpoints,par):
     return(np.array(slope), np.array(b))
 
 
+#### a piecewise linear approximation function specifically for the function h(x)=1-(1-x)^par
 
 def affine_approx_hspw(par,eps):
     x_points = affine_approx(eps,argmax_sing_power,max_error_singpw,par)
