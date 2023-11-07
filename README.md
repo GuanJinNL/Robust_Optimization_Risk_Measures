@@ -7,6 +7,7 @@ It is important that the following packages are installed
 + numpy
 + cvxpy
 + mosek (for this one needs a license, however one can also choose to solve cvxpy with other solvers)
++ Gurobi
 
 ## Instructions
 Experiments can be run in their corresponding ipynb file. Each of these files are also facilitated with markdown cell that explains the experiment at hand. The codes are provided with comments.
