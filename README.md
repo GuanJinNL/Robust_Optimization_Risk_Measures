@@ -18,7 +18,6 @@ Single_Item_Newsvendor.ipynb
 To run the multi-item newsvendor experiment, click on the file:
 ```
 Multi_Items_Newsvendor.ipynb
-
 ```
 To run the portfolio optimization experiment, click on the file:
 ```
