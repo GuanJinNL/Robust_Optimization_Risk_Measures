@@ -6,8 +6,8 @@ This repository contains the code of the numerical examples that are disussed in
 It is important that the following packages are installed 
 + numpy
 + cvxpy
-+ mosek (for this one needs to apply for an academic license, or use aother solver)
-+ Gurobi
++ mosek (requires an academic license)
++ Gurobi (requires an academic license)
 
 ## Instructions
 Experiments can be run in their corresponding ipynb file. Each of these files are also facilitated with markdown cell that explains the experiment at hand. The codes are provided with comments.
@@ -22,5 +22,9 @@ Multi_Items_Newsvendor.ipynb
 To run the portfolio optimization experiment, click on the file:
 ```
 Robust_Portfolio.ipynb
+```
+To run the portfolio optimization experiment with Non-concave distortion function (Prelec), click on the file:
+```
+Prelec_Portfolio.ipynb
 ```
 The .py files are files that contain functions which are needed in the experiments. See the comments in these files for further details.
