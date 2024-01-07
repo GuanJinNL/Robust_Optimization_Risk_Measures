@@ -27,4 +27,4 @@ To run the portfolio optimization experiment with Non-concave distortion functio
 ```
 Prelec_Portfolio.ipynb
 ```
-The .py files are files that contain functions which are needed in the experiments. See the comments in these files for further details.
+The .py files are support files that contain functions which are needed in the experiments. See the comments in these files for further details.
