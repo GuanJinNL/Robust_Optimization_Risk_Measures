@@ -6,7 +6,7 @@ This repository contains the code of the numerical examples that are disussed in
 It is important that the following packages are installed 
 + numpy
 + cvxpy
-+ mosek (for this one needs a license, however one can also choose to solve cvxpy with other solvers)
++ mosek (for this one needs to apply for an academic license, or use aother solver)
 + Gurobi
 
 ## Instructions
