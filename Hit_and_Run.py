@@ -11,7 +11,7 @@ import mosek
 
 # In[4]:
 
-#### evaluating the kullback-leibler phi divergence
+#### Evaluating the kullback-leibler phi divergence
 
 def kl_calc(q,p):
     N = len(p)
