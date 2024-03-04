@@ -12,7 +12,7 @@ import mosek
 
 # In[2]:
 
-### All necessary functions for piecewise linear approximating the power function h(x) = x^r
+### All necessary functions for piecewise-linear approximation of the power function h(x) = x^r
 
 def argmax_pw(x2,x1,r):
     frac = (x2**r-x1**r)/(x2-x1)*1/r
@@ -25,7 +25,7 @@ def max_error_pw(x2,x1,x,r):
 def pw (x,r):
     return(x**r)
 
-### All necessary functions for piecewise linear approximating the quadratic function h(x) = (1+par)x-par*x^2
+### All necessary functions for piecewise-linear approximation of the quadratic function h(x) = (1+par)x-par*x^2
 
 def argmax_quad(x2,x1,par):
     return((x2+x1)/2)
@@ -37,7 +37,7 @@ def quad(x,par):
     return((1+par)*x-par*x**2)
 
 
-### All necessary functions for piecewise linear approximating the function h(x) = 1-(1-x)^par
+### All necessary functions for piecewise-linear approximation of the function h(x) = 1-(1-x)^par
 
 def argmax_sing_power(x2,x1,par):
     breuk = ((1-x1)**par-(1-x2)**par)/(x2-x1)
@@ -108,7 +108,7 @@ def makepoints(h_eval,xpoints,par):
     return(np.array(slope), np.array(b))
 
 
-#### a piecewise linear approximation function specifically for the function h(x)=1-(1-x)^par
+#### a piecewise-linear approximation function specifically for the function h(x)=1-(1-x)^par
 
 def affine_approx_hspw(par,eps):
     x_points = affine_approx(eps,argmax_sing_power,max_error_singpw,par)
