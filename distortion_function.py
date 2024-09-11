@@ -18,10 +18,14 @@ import mosek
 #### quadratic h function h(x) = (1+par)*x - par*(x^2), 0<par<1
 def h_quad_conj(lbda,v,z,par,constraints):
     M = lbda.shape[0]
-    eta = cp.Variable(M, nonneg= True)
+    z1 = cp.Variable(M)
+    z2 = cp.Variable(M)
+    xi_1 = cp.Variable(M,nonpos=True)
+    xi_2 = cp.Variable(M, nonneg = True)
+    w = cp.Variable(M, nonneg= True)
+    constraints.extend((z== z1 + z2,-v+lbda*(1-par)==xi_1+xi_2, z2 >= xi_2, xi_1+2*r <= w))
     for j in range(M):
-        constraints.append(cp.norm(cp.vstack([eta[j],(z[j]-lbda[j])/2]))<=(z[j]+lbda[j])/2)
-        constraints.append(1/(2*np.sqrt(par))*(-v[j]+lbda[j]+par*lbda[j])<= eta[j])
+        constraints.append(cp.norm(cp.vstack([w[j]/np.sqrt(r),z1[j]-lbda[j]]))<=(z1[j]+lbda[j]))
     return(constraints)
 
 #### function h(x) = 1 - (1-x)^par for 0<=x<1, h(x)=1 for x>=1
