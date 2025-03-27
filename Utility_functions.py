@@ -49,7 +49,7 @@ def exp_utility_pmax(R, r_f, a,W0,par):
     return(f_obj)
 
 
-### Same utility functions as above, but soley for value evaluation purposes.
+### Same utility functions as above, but solely for value evaluation purposes.
 
 def lin_utility_eva(R,w,W0,par):
     return(W0*(1+R.dot(w)))
