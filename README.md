@@ -20,7 +20,7 @@ To run the multi-item newsvendor experiment, click on the file:
 ```
 Multi_Items_Newsvendor.ipynb
 ```
-To run the portfolio optimization experiment, click on the file:
+To run the portfolio optimization experiment, import the data file "6_Portfolios_2x3.csv" and click on the file:
 ```
 Robust_Portfolio.ipynb
 ```
