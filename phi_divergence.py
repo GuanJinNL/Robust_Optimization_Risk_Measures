@@ -62,7 +62,7 @@ def kb_cut(p,q,r,par,constraints):
 # In[6]:
 
 
-###### functions that evaluates phi functions
+###### functions that evaluate phi functions
 
 def kb_eva(p,q):
     N = len(p)
