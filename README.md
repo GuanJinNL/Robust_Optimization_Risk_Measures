@@ -11,7 +11,7 @@ It is important that the following packages are installed:
 + Gurobi Version 11.0.3 (requires an academic license)
 
 ## Instructions
-Experiments can be run in their corresponding ipynb file. Each of these files are also facilitated with markdown cell that explains the experiment at hand. The codes are provided with comments.
+Experiments can be run in their corresponding ipynb file. The codes are provided with comments.
 To run the single-item newsvendor experiment, click on the file:
 ```
 Single_Item_Newsvendor.ipynb
