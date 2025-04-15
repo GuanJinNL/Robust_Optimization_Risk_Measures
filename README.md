@@ -1,7 +1,8 @@
 # Robust Optimization of Rank-Dependent Models with Uncertain Probabilities
 
 ## Introduction
-This repository contains the code of numerical examples that are discussed in the paper Robust Optimization of Rank-Dependent Models with Uncertain Probabilities. The examples that are analyzed are the single-item/multi-item newsvendor problem and a robust portfolio optimization problem (with concave and inverse S-shaped distortion functions). The main codes of each numerical example can be found in the corresponding ipynb file. 
+This repository contains the code for the algorithms and numerical examples developed in the paper **Robust Optimization of Rank-Dependent Models with Uncertain Probabilities**. The examples that are analyzed are: (i) a single-item newsvendor problem; (ii) a multi-item newsvendor problem; (iii) a robust portfolio optimization problem with concave distortion function; and (iv) a robust portfolio optimization problem with the inverse S-shaped distortion function of Prelec. See Section 7 of the paper for further details.
+
 
 ## Dependencies
 It is important that the following optimization packages are installed: 
